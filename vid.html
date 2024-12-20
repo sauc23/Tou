@@ -76,10 +76,10 @@
 
     <script src="https://vjs.zencdn.net/7.15.4/video.min.js"></script>
     <script>
-        function getVideoId() {
+        
             const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get('id');
-        }
+            
+     
 
         async function searchVideos() {
             const query = document.getElementById('searchQuery').value;
@@ -87,7 +87,7 @@
         }
 
         function loadVideo() {
-            const videoId = getVideoId();
+            const videoId = return urlParams.get('id');
             const videoContainer = document.getElementById('videoContainer');
             if (videoId) {
                 videoContainer.innerHTML = `
