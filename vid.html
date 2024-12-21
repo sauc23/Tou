@@ -98,11 +98,12 @@
             const videoContainer = document.getElementById('videoContainer');
             if (videoId) {
                 const videoUrl = `https://ytprro.jdx3.org/video/${videoId}`;
+                const posterUrl = `https://cors-proxy.cooks.fyi/https://yewtu.be/vi/${videoId}/maxres.jpg`;
                 try {
                     const response = await fetch(videoUrl, { method: 'HEAD' });
                     if (response.ok) {
                         videoContainer.innerHTML = `
-                            <video id="my-video" class="video-js" controls preload="auto" width="640" height="264">
+                            <video id="my-video" class="video-js" playsinline poster="${posterUrl}"  controls preload="auto" width="640" height="360">
                                 <source src="${videoUrl}" type="video/mp4">
                                 Your browser does not support the video tag.
                             </video>
