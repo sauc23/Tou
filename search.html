@@ -104,6 +104,21 @@
                 resultsContainer.appendChild(videoElement);
             });
         }
+
+        // Function to get query parameter from URL
+        function getQueryParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        // Automatically submit the search if a query parameter is present
+        window.onload = function() {
+            const query = getQueryParameter('q');
+            if (query) {
+                document.getElementById('searchQuery').value = query;
+                searchVideos();
+            }
+        };
     </script>
 
 </body>
