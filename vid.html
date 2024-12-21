@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Watch Video</title>
+    <link href="https://vjs.zencdn.net/7.15.4/video-js.css" rel="stylesheet" />
     <style>
         body {
             background-color: #121212;
@@ -39,11 +40,6 @@
             display: flex;
             justify-content: center;
             margin-bottom: 20px;
-        }
-        video {
-            width: 100%;
-            max-width: 800px;
-            height: auto;
         }
         .back-button {
             display: block;
@@ -83,11 +79,12 @@
     </div>
     
     <div class="video-container" id="videoContainer">
-        <!-- HTML5 video player will be embedded here -->
+        <!-- Video.js player will be embedded here -->
     </div>
 
     <a class="back-button" href="search.html">Back to Search</a>
 
+    <script src="https://vjs.zencdn.net/7.15.4/video.min.js"></script>
     <script>
         const urlParams = new URLSearchParams(window.location.search);
 
@@ -105,11 +102,13 @@
                     const response = await fetch(videoUrl, { method: 'HEAD' });
                     if (response.ok) {
                         videoContainer.innerHTML = `
-                            <video controls preload="auto">
+                            <video id="my-video" class="video-js" controls preload="auto" width="640" height="264">
                                 <source src="${videoUrl}" type="video/mp4">
                                 Your browser does not support the video tag.
                             </video>
                         `;
+                        // Initialize Video.js
+                        videojs('my-video');
                     } else {
                         throw new Error('Server error');
                     }
