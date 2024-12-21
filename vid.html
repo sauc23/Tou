@@ -57,6 +57,21 @@
             text-align: center;
             text-decoration: none;
         }
+        .error-message {
+            text-align: center;
+            color: #ff0000;
+        }
+        .refresh-button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #1e88e5;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -81,16 +96,31 @@
             window.location.href = `search.html?q=${encodeURIComponent(query)}`;
         }
 
-        function loadVideo() {
-            const videoId = urlParams.get('id'); // Fixed this line
+        async function loadVideo() {
+            const videoId = urlParams.get('id');
             const videoContainer = document.getElementById('videoContainer');
             if (videoId) {
-                videoContainer.innerHTML = `
-                    <video controls preload="auto">
-                        <source src="https://ytprro.jdx3.org/video/${videoId}" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                `;
+                const videoUrl = `https://ytprro.jdx3.org/video/${videoId}`;
+                try {
+                    const response = await fetch(videoUrl, { method: 'HEAD' });
+                    if (response.ok) {
+                        videoContainer.innerHTML = `
+                            <video controls preload="auto">
+                                <source src="${videoUrl}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        `;
+                    } else {
+                        throw new Error('Server error');
+                    }
+                } catch (error) {
+                    videoContainer.innerHTML = `
+                        <div class="error-message">
+                            <p>The server is being rate-limited or bot-blocked.</p>
+                            <button class="refresh-button" onclick="loadVideo()">Refresh Video</button>
+                        </div>
+                    `;
+                }
             } else {
                 videoContainer.innerHTML = '<p>Video not found.</p>';
             }
